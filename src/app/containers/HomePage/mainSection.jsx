@@ -5,6 +5,9 @@ import tw from 'twin.macro';
 import FormInput from '../../components/form';
 import { Button }   from '../../components/button';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './main.css'
 
 const PageContainer = styled.div`
     ${tw`
@@ -71,18 +74,18 @@ const RequiredStar = "*";
 export function MainSection() {
 
     const [user, setUser] = useState({
-        name: "",
-        phoneNumber: "",
+        full_name: "",
+        contact_number: "",
         email: "",
-        dob: "",
+        date_of_birth: "",
         password: "",
-        confirm: ""
+        confirm_password: ""
     });
 
     const inputs = [
         {
             id: 1,
-            name: "name",
+            name: "full_name",
             type: "text",
             placeholder: `Full Name ${RequiredStar}`,
             pattern: "^[_A-z0-9]*((-|\s)*[_A-z0-9])*$",
@@ -92,11 +95,11 @@ export function MainSection() {
         },
         {
             id: 2,
-            name: "phoneNumber",
+            name: "contact_number",
             type: "tel",
-            placeholder: "Phone Number",
+            placeholder: `Phone Number ${RequiredStar}`,
             pattern: "[0-9]{3}-[0-9]{3}-[0-9]{4}",
-            error: "Sorry, this phone number is not valid. Please try again.",
+            error: "Sorry, this phone number is not valid. Please follow this format: 111-111-1111",
             label: "Phone Number",
             required: true
         },
@@ -104,7 +107,7 @@ export function MainSection() {
             id: 3,
             name: "email",
             type: "text",
-            placeholder: "Email Address",
+            placeholder: `Email Address`,
             pattern: "^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+[.])+[a-z]{2,5}$",
             error: "Sorry, this email is not valid. Please try again.",
             label: "Email Address",
@@ -112,16 +115,16 @@ export function MainSection() {
         },
         {
             id: 4,
-            name: "dob",
+            name: "date_of_birth",
             type: "date",
-            label: "Date of Birth",
-            required: true
+            label: `Date of Birth`,
+            // required: true -> Commented to test error alert.
         },
         {
             id: 5,
             name: "password",
             type: "password",
-            placeholder: "Create Password",
+            placeholder: `Create Password ${RequiredStar}`,
             pattern: "[A-Za-z0-9]{8,}$",
             error: "Password should only contain letters, numbers, and must have atleast 8 characters.",
             label: "Password",
@@ -129,9 +132,9 @@ export function MainSection() {
         },
         {
             id: 6,
-            name: "confirm",
+            name: "confirm_password",
             type: "password",
-            placeholder: "Re-type Password",
+            placeholder: `Re-type Password ${RequiredStar}`,
             pattern: user.password,
             error: "Sorry, this password does not match.",
             label: "Confirm Password",
@@ -143,27 +146,92 @@ export function MainSection() {
         setUser({...user, [e.target.name]: e.target.value})
     };
 
+
+    const options = {
+        url: "https://fullstack-test-navy.vercel.app/api/users/create",
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8'
+        },
+        data: {
+            full_name: user.full_name,
+            contact_number: user.contact_number,
+            email: user.email,
+            date_of_birth: user.date_of_birth,
+            password: user.password,
+            confirm_password: user.confirm_password
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        axios.post(url, {
-            name: user.name,
-            phoneNumber: user.phoneNumber,
-            email: user.email,
-            dob: user.dob,
-            password: user.password,
-            confirm: user.confirm
-        }).then(res => {
-            console.log(res.user);
+        axios(options).then(res => {
+            console.log(user.full_name)
+            if (user.full_name != "" && user.contact_number != "" && user.email != "" && user.date_of_birth != "" && user.password != "" && user.confirm_password != "") {
+                toast.success(res.data.title + ": " + res.data.description, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored"
+                });
+            } else {
+                toast.error("There was an error creating this account.", {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    style: {
+                        background: "#CDFADC",
+                        color: '#333333' 
+                    }
+                }); 
+            }
+        }).catch((error) => {
+            toast.error("There was an error creating this account.", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                style: {
+                    background: "#CDFADC",
+                    color: '#333333' 
+                }
+            }); 
         })
     };
 
-    const url = "https://fullstack-test-navy.vercel.app/api/users/create";
-    // For testing console.log(user);
+    console.log(user);
     return (
         <PageContainer>
             <MainContainer>
                 <Title>Create User Account</Title>
+
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="colored"
+                />
 
                 <Form onSubmit={handleSubmit}>
                     <FormContainer>
@@ -176,7 +244,6 @@ export function MainSection() {
                         <Button theme="filled" text="Submit" /> 
                     </ButtonsContainer>
                 </Form>
-
             </MainContainer>
         </PageContainer>
     )

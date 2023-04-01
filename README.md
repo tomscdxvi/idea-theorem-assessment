@@ -19,7 +19,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 Technologies Used:
 
-HTML, CSS, JavaScript (React.js + Libraries), and TailwindCSS.
+_HTML, CSS, JavaScript (React.js + Libraries), and TailwindCSS_
 
 Missing / Not Finished:
 
@@ -49,7 +49,7 @@ Checklist for Front-End:
 
 Technologies Used:
 
-JavaScript, Axios
+_JavaScript, Axios_
 
 Checklist for Form Validation:
 

@@ -17,6 +17,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
 ### Front-End
 
+Technologies Used:
+
+HTML, CSS, JavaScript (React.js + Libraries), and TailwindCSS.
+
 Missing / Not Finished:
 
 1. Red label between error border. 
@@ -42,6 +46,10 @@ Checklist for Front-End:
 8. Submit button shows alert based on 'Success' or 'Error' depending on back-end validations.
 
 ### Back-End
+
+Technologies Used:
+
+JavaScript, Axios
 
 Checklist for Form Validation:
 

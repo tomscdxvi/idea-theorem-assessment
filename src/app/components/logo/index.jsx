@@ -13,13 +13,21 @@ const LogoContainer = styled.div`
     `}
 `;
 
+const LogoContainerMobile = styled.div`
+    margin: auto;
+    ${tw`
+        flex
+        items-center
+    `}
+`;
+
 const ImageContainer = styled.div`
     width:auto;
     ${tw`
         h-6
         medium:h-9
     `}
-    img{
+    img {
         width:auto;
         height:100%;
     }
@@ -27,6 +35,19 @@ const ImageContainer = styled.div`
 
 
 export function Logo() {
+
+    const isMobile = useMediaQuery({ maxWidth: SCREEN_SIZES.small});
+
+    if(isMobile) {
+        return (
+            <LogoContainerMobile>
+                <ImageContainer>
+                    <img src={LogoImage} alt="" />
+                </ImageContainer> 
+            </LogoContainerMobile> 
+        )
+    }
+
     return (
         <LogoContainer>
             <ImageContainer>

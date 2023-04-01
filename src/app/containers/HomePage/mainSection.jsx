@@ -1,5 +1,6 @@
 import { React, useState } from 'react'
 import styled from 'styled-components';
+import { useMediaQuery } from 'react-responsive';
 import { SCREEN_SIZES } from '../../components/responsive';
 import tw from 'twin.macro';
 import FormInput from '../../components/form';
@@ -30,6 +31,7 @@ const MainContainer = styled.div`
         flex-col
     `}
 `;
+
 
 const Title = styled.h1`
     ${tw`
@@ -214,7 +216,43 @@ export function MainSection() {
         })
     };
 
-    console.log(user);
+    const isMobile = useMediaQuery({ maxWidth: SCREEN_SIZES.small});
+
+    if(isMobile) {
+        return (
+            <PageContainer>
+                    <MainContainer>
+                        <Title style={{ marginLeft: '1.5rem', fontSize: '18px' }}>Create User Account</Title>
+
+                        <ToastContainer
+                            position="top-right"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="colored"
+                        />
+
+                        <Form onSubmit={handleSubmit}>
+                            <FormContainer style={{ }}>
+                                {inputs.map((input) => (
+                                    <FormInput key={input.id} {...input} value={user[input.name]} onChange={onChangeHandler} style={{ width: 200}} />
+                                ))}
+                            </FormContainer>
+                            <ButtonsContainer>
+                                <Button theme="outline" text="Cancel" />
+                                <Button theme="filled" text="Submit" /> 
+                            </ButtonsContainer>
+                        </Form>
+                    </MainContainer>
+            </PageContainer>
+        )
+    }
+
     return (
         <PageContainer>
             <MainContainer>

@@ -45,6 +45,8 @@ Checklist for Front-End:
 
 8. Submit button shows alert based on 'Success' or 'Error' depending on back-end validations.
 
+9. Mobile Responsiveness: Tested on IPhone 12 Pro and IPad Air/Mini through Inspect -> Devtools
+
 ### Back-End
 
 Technologies Used:
